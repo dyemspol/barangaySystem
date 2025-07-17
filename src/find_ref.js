@@ -9,14 +9,15 @@ const findButton = document.querySelector("button[type='submit']");
 const emailInput = document.getElementById("findref");
 const docTypeSelect = document.getElementById("documentType");
 const messageBox = document.querySelector(".message");
-const loader = document.getElementById("loader");
+const loader = document.getElementById("loaderModal");
+
 findButton.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const email = emailInput.value.trim().toLowerCase();
   const documentType = docTypeSelect.value;
 
-  messageBox.textContent = ""; // Clear old message
+  messageBox.textContent = "";
 
   if (!email || !documentType) {
     messageBox.textContent =
@@ -26,15 +27,27 @@ findButton.addEventListener("click", async (e) => {
   }
 
   const userRef = ref(database, "documentRequests/");
+  loader.style.display = "flex";
 
   try {
-    loader.style.display = "flex";
+    console.log("📡 Fetching data from Firebase...");
     const snapshot = await get(userRef);
+    console.log("✅ Firebase get() success");
+
+    if (!snapshot.exists()) {
+      messageBox.textContent = "❌ No data found in the database.";
+      messageBox.style.color = "red";
+      loader.style.display = "none";
+      return;
+    }
+
     let matchFound = false;
 
     snapshot.forEach((childSnapshot) => {
       const data = childSnapshot.val();
       const key = childSnapshot.key;
+
+      console.log("🔍 Checking entry:", data.email, data.documentType);
 
       if (
         data.email.toLowerCase() === email &&
@@ -43,11 +56,13 @@ findButton.addEventListener("click", async (e) => {
         matchFound = true;
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        console.log("🔐 Match found. Generated OTP:", otp);
 
-        // Update Firebase with OTP
         update(ref(database, `documentRequests/${key}`), { otp })
           .then(() => {
-            // Send OTP email
+            console.log("✅ OTP saved to database");
+
+            // Send Email using EmailJS
             return emailjs.send("service_xjgaz8u", "template_ggx0gmc", {
               fullname: data.fullname,
               otp: otp,
@@ -56,7 +71,8 @@ findButton.addEventListener("click", async (e) => {
           })
           .then(() => {
             loader.style.display = "none";
-            // Show success alert
+            console.log("📨 Email sent successfully");
+
             Swal.fire({
               icon: "success",
               title: "OTP Sent!",
@@ -67,22 +83,26 @@ findButton.addEventListener("click", async (e) => {
             });
           })
           .catch((err) => {
-            console.error("OTP Email or DB error:", err);
+            console.error("❌ EmailJS or Firebase error:", err);
             messageBox.textContent =
               "❌ Failed to process OTP. Please try again.";
             messageBox.style.color = "red";
+            loader.style.display = "none";
           });
       }
     });
 
     if (!matchFound) {
+      console.warn("❌ No matching request found.");
       messageBox.textContent =
         "❌ No request found with that email and document type.";
       messageBox.style.color = "red";
+      loader.style.display = "none";
     }
   } catch (error) {
-    console.error("Firebase get() error:", error);
+    console.error("🔥 Firebase read failed:", error);
     messageBox.textContent = "❌ Database error. Please try again later.";
     messageBox.style.color = "red";
+    loader.style.display = "none";
   }
 });
