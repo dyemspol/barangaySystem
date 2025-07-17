@@ -23,9 +23,8 @@ function setupListener() {
     let totalCount = 0;
     let pendingCount = 0;
     let completedCount = 0;
-    let todaysCount = 0;
-
-    const today = new Date().toISOString().split("T")[0];
+    let processingCount = 0;
+    let rejectCount = 0;
 
     if (snapshot.exists()) {
       const data = snapshot.val();
@@ -33,10 +32,12 @@ function setupListener() {
       Object.entries(data).forEach(([key, request]) => {
         totalCount++;
 
-        const status = request.status?.toLowerCase();
+        const status = request.status?.toLowerCase() || "pending";
+
         if (status === "pending") pendingCount++;
-        if (status === "completed") completedCount++;
-        if (request.Submit_time?.startsWith(today)) todaysCount++;
+        else if (status === "completed") completedCount++;
+        else if (status === "processing") processingCount++;
+        else if (status === "rejected") rejectCount++;
 
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -46,7 +47,7 @@ function setupListener() {
           <td data-label="Date Requested">${request.Submit_time || "N/A"}</td>
           <td data-label="Status">${request.status || "Pending"}</td>
           <td data-label="Actions">
-            <select class="status-select" data-id="${key}" id="status-${key}" name="status-${key}">
+            <select class="status-select" data-id="${key}">
               <option ${status === "pending" ? "selected" : ""}>Pending</option>
               <option ${
                 status === "processing" ? "selected" : ""
@@ -54,6 +55,9 @@ function setupListener() {
               <option ${
                 status === "completed" ? "selected" : ""
               }>Completed</option>
+              <option ${
+                status === "rejected" ? "selected" : ""
+              }>Rejected</option>
             </select>
             <button class="view-btn" data-id="${key}">Show Info</button>
           </td>
@@ -64,7 +68,8 @@ function setupListener() {
       document.getElementById("totalCount").textContent = totalCount;
       document.getElementById("pendingCount").textContent = pendingCount;
       document.getElementById("completeCount").textContent = completedCount;
-      document.getElementById("todaysCount").textContent = todaysCount;
+      document.getElementById("processingCount").textContent = processingCount;
+      document.getElementById("rejectCount").textContent = rejectCount;
 
       attachEventListeners();
     } else {
@@ -96,7 +101,7 @@ function attachEventListeners() {
           status: newStatus,
         });
 
-        if (newStatus === "Completed") {
+        if (newStatus.toLowerCase() === "completed") {
           emailjs
             .send("service_xjgaz8u", "template_jclh5bh", {
               name: currentData.fullname,

@@ -114,6 +114,13 @@
         background-color: #69f0ae;
       }
 
+      .red {
+        background-color: red;
+      }
+      .purple {
+        background-color: #7e57c2;
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -313,8 +320,8 @@
 
       <div class="cards">
         <div class="card yellow">
-          <span>Today's Request</span>
-          <span id="todaysCount">0</span>
+          <span>Processing</span>
+          <span id="processingCount">0</span>
         </div>
         <div class="card blue">
           <span>Pending</span>
@@ -324,7 +331,11 @@
           <span>Completed</span>
           <span id="completeCount">0</span>
         </div>
-        <div class="card green">
+        <div class="card red">
+          <span>Rejected</span>
+          <span id="rejectCount">0</span>
+        </div>
+        <div class="card purple">
           <span>Total Request</span>
           <span id="totalCount">0</span>
         </div>

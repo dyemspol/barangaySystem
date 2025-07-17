@@ -42,6 +42,9 @@ function setupListener() {
               <option ${
                 request.status === "Completed" ? "selected" : ""
               }>Completed</option>
+              <option ${
+                request.status === "Rejected" ? "selected" : ""
+              }>Rejected</option>
             </select>
             <button class="view-btn" data-id="${key}">Show Info</button>
           </td>

@@ -212,27 +212,34 @@
   <body>
     <script type="module" src="src/auth-guard.js"></script>
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
+      <img src="src/baranggay-logo.png" alt="" />
       <h3>Admin</h3>
-      <a href="admin_page.html"
-        ><i class="fa-solid fa-house" style="margin-right: 0.5em"></i
-        >Dashboard</a
-      >
-      <a href="req_page_admin.html"
-        ><i class="fa-solid fa-list" style="margin-right: 0.5em"></i>Request
-        List</a
-      >
-      <a href="#" style="background-color: #00a243"
-        ><i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
-        Password</a
-      >
-      <a href="#" onclick="logout()"
-        ><i
-          class="fa-solid fa-arrow-right-from-bracket"
+      <a href="admin_page.html">
+        <i
+          class="fa-solid fa-house navlinks-logo"
           style="margin-right: 0.5em"
         ></i
-        >Logout</a
-      >
+        >Dashboard
+      </a>
+      <a href="req_page_admin.html">
+        <i
+          class="fa-solid fa-list navlinks-logo"
+          style="margin-right: 0.5em"
+        ></i
+        >Request List
+      </a>
+      <a style="background-color: #00a243" href="change-pass-admin.html">
+        <i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
+        Password
+      </a>
+      <a href="#" onclick="logout()">
+        <i
+          class="fa-solid fa-arrow-right-from-bracket navlinks-logo"
+          style="margin-right: 0.5em"
+        ></i
+        >Logout
+      </a>
     </div>
 
     <!-- Overlay -->

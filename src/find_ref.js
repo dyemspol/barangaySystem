@@ -9,7 +9,7 @@ const findButton = document.querySelector("button[type='submit']");
 const emailInput = document.getElementById("findref");
 const docTypeSelect = document.getElementById("documentType");
 const messageBox = document.querySelector(".message");
-
+const loader = document.getElementById("loader");
 findButton.addEventListener("click", async (e) => {
   e.preventDefault();
 
@@ -28,6 +28,7 @@ findButton.addEventListener("click", async (e) => {
   const userRef = ref(database, "documentRequests/");
 
   try {
+    loader.style.display = "flex";
     const snapshot = await get(userRef);
     let matchFound = false;
 
@@ -54,6 +55,7 @@ findButton.addEventListener("click", async (e) => {
             });
           })
           .then(() => {
+            loader.style.display = "none";
             // Show success alert
             Swal.fire({
               icon: "success",

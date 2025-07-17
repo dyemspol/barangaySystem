@@ -7,9 +7,11 @@ documentType.addEventListener("change", () => {
   extraFields.innerHTML = "";
 
   const uploadNote = `
-    <small style="margin-bottom: 0.4em;">
-      Upload your valid ID to Google Drive and paste the shareable link below.
-    </small>
+    <small style="margin-bottom: 0.4em; display: block;">
+  Upload your valid ID to <strong>Google Drive</strong> or 
+  <a href="https://imgbb.com/" target="_blank" style="color: #3e12aeff; text-decoration: underline; font-weight: bold;">ImgBB</a>, 
+  then paste the shareable link below — or upload the file directly if available.
+</small>
     <input
       type="url"
       name="validIDLink"

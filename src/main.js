@@ -12,6 +12,7 @@ const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const loader = document.getElementById("loader");
   const fullname = form.querySelector('input[placeholder="Full name"]').value;
   const email = form.querySelector('input[placeholder="Email"]').value;
   const dob = form.querySelector('input[type="date"]').value;
@@ -49,6 +50,7 @@ form.addEventListener("submit", async (e) => {
 
   const referenceNumber = generateRefNumber();
   const OTP = generateOTP();
+  loaderModal.style.display = "flex";
   push(ref(database, "documentRequests/"), {
     referenceNumber,
     fullname,
@@ -66,6 +68,7 @@ form.addEventListener("submit", async (e) => {
     otp: OTP,
   })
     .then(() => {
+      loaderModal.style.display = "none";
       Swal.fire({
         title: "Your document request has been successfully submitted.",
         icon: "success",
