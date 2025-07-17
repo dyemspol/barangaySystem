@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/admin_login.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <form class="right-side" action="">
+          <h3 style="text-align: center">Enter Secret key</h3>
+          <p style="text-align: center">To reset admin password</p>
+          <div class="inputs">
+            <input id="secretkey" type="text" placeholder="Secret key" />
+          </div>
+          <button class="login" id="bt" type="submit">Submit</button>
+
+          <div><p style="color: red; text-align: center" id="p"></p></div>
+        </form>
+        <div class="left-side">
+          <img src="src/baranggay-logo.png" alt="" />
+        </div>
+      </div>
+    </main>
+    <script type="module" src="src/firebase.config.js"></script>
+    <!-- <script type="module" src="src/admin-authentication.js"></script> -->
+    <script type="module" src="src/secretkey.js"></script>
+  </body>
+</html>

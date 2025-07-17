@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/find_ref.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Barangay Canidkid</title>
+    <style>
+      .wrapper {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2em;
+        background: linear-gradient(135deg, #e0f2f1, #f1f8e9);
+      }
+
+      .track-box {
+        background: #fff;
+        padding: 2em;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        max-width: 420px;
+        width: 100%;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 1em;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.8em;
+        margin-bottom: 1em;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 100%;
+        padding: 0.8em;
+        background-color: #00c853;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .result {
+        margin-top: 1.5em;
+        padding: 1em;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+      }
+
+      .label {
+        font-weight: bold;
+      }
+
+      .status {
+        display: inline-block;
+        padding: 0.4em 1em;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: bold;
+        color: white;
+        margin-top: 0.4em;
+      }
+
+      .completed {
+        background-color: #4caf50; /* ✅ Green */
+      }
+
+      .processing {
+        background-color: #03a9f4;
+      }
+
+      .pending {
+        background-color: #ffc107;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="#home">
+          <img class="nav-baranggay-logo" src="src/baranggay-logo.png" alt=""
+        /></a>
+
+        <div class="menulinks">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#2ndp">Request</a>
+          <a href="track-status.html">Track Status</a>
+          <a href="find_ref.html">Find Ref</a>
+        </div>
+
+        <div class="menu-bt">
+          <i
+            class="fa-solid fa-bars"
+            style="
+              color: white;
+              font-size: 1.5em;
+              padding-right: 1em;
+              cursor: pointer;
+            "
+          ></i>
+        </div>
+      </nav>
+
+      <div class="mobile-menulinks">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#2ndp">Request</a>
+        <a href="track-status.html">Track Status</a>
+        <a href="find_ref.html">Find Ref</a>
+      </div>
+    </header>
+
+    <div class="wrapper">
+      <div class="track-box">
+        <h2>Track Request Status</h2>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your reference number"
+        />
+        <button onclick="track()">Track</button>
+        <p
+          id="message"
+          style="text-align: center; font-size: 0.8em; padding-top: 1em"
+        ></p>
+        <div id="result" class="result" style="display: none">
+          <p><span class="label">Name:</span> <span id="name"></span></p>
+          <p>
+            <span class="label">Document Type:</span> <span id="docType"></span>
+          </p>
+          <p>
+            <span class="label">Status:</span>
+            <span id="status" class="status"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <img
+            src="src/baranggay-logo.png"
+            alt="Barangay Logo"
+            class="footer-logo"
+            style="width: 9em; height: auto"
+          />
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#2ndp">Request form</a></li>
+            <li><a href="#">Track Status</a></li>
+            <li><a href="#">Find ref</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Contact us</h4>
+          <p>Barangay Epoy,<br />Montevista</p>
+          <p>09088193990</p>
+          <p>barangaygmail@gmail.com</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Office Hours</h4>
+          <p>Monday – Friday,<br />8:00 AM to 5:00 PM</p>
+          <h4 style="margin-top: 0.5em">Follow us</h4>
+          <a
+            target="_blank"
+            href="https://www.facebook.com/profile.php?id=61553095415841"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+        </div>
+      </div>
+      <hr />
+      <p class="footer-bottom">© 2025 Barangay Epoy. All right Reserved.</p>
+    </footer>
+    <script src="src/nav_tonggle.js"></script>
+    <!-- <script type="module" src="src/find_ref.js"></script> -->
+    <script type="module" src="src/trackstatus.js"></script>
+  </body>
+</html>

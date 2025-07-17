@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Barangay Canidkid</title>
+  </head>
+  <body>
+    <header id="navigation">
+      <nav>
+        <a href="#home">
+          <img class="nav-baranggay-logo" src="src/baranggay-logo.png" alt=""
+        /></a>
+
+        <div class="menulinks">
+          <a href="#home">Home</a>
+          <a href="#2ndp">Request</a>
+          <a href="track-status.html">Track Status</a>
+          <a href="find_ref.html">Find Ref</a>
+        </div>
+
+        <div class="menu-bt">
+          <i
+            class="fa-solid fa-bars"
+            style="
+              color: white;
+              font-size: 1.5em;
+              padding-right: 1em;
+              cursor: pointer;
+            "
+          ></i>
+        </div>
+      </nav>
+
+      <div class="mobile-menulinks">
+        <a href="#home">Home</a>
+        <a href="#2ndp">Request</a>
+        <a href="track-status.html">Track Status</a>
+        <a href="find_ref.html">Find Ref</a>
+      </div>
+    </header>
+
+    <main id="home">
+      <section>
+        <div class="container">
+          <div class="hero-header">
+            <h2>
+              <span style="color: #2cbf62; font-weight: 1000">Welcome</span> to
+              Barangay
+            </h2>
+            <h2>Luyang Online Services</h2>
+          </div>
+          <div class="sub_header">
+            <p>Request and track your Barangay documents</p>
+            <p>online — fast, secure, and hassle-free.</p>
+          </div>
+          <a href="#2ndp"> <button class="req-bt">Request Now</button></a>
+        </div>
+      </section>
+    </main>
+    <section
+      class="secondpage"
+      id="2ndp"
+      style="
+        display: flex;
+        justify-content: center;
+        padding-block: 4em;
+        background-color: white;
+      "
+    >
+      <div class="container-form">
+        <h2>Barangay Document Request</h2>
+        <p>Fill up your request below</p>
+
+        <!-- Make sure your other sections, nav, and style are in place -->
+        <form>
+          <input type="text" placeholder="Full name" required />
+          <input type="email" placeholder="Email" required />
+          <div class="two-cols">
+            <input type="date" placeholder="Birthday" required />
+            <input type="number" placeholder="Age" required />
+          </div>
+          <div class="two-cols">
+            <select required>
+              <option value="">Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <select required>
+              <option value="">Civil Status</option>
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Widowed">Widowed</option>
+              <option value="Divorced">Divorced</option>
+            </select>
+          </div>
+          <h4>Address</h4>
+          <div class="two-cols">
+            <select required>
+              <option value="">Select purok</option>
+              <option value="Canidkid, Purok 1">Canidkid, Purok 1</option>
+              <option value="Canidkid, Purok 2">Canidkid, Purok 2</option>
+              <option value="Canidkid, Purok 3">Canidkid, Purok 3</option>
+              <option value="Canidkid, Purok 4">Canidkid, Purok 4</option>
+              <option value="Canidkid, Purok 5">Canidkid, Purok 5</option>
+            </select>
+          </div>
+          <h4>Document Request Details</h4>
+          <select id="documentType" required>
+            <option value="">Select type of Document</option>
+            <option value="business-permit">Business Permit</option>
+            <option value="barangay-clearance">Barangay Clearance</option>
+            <option value="certificate-indigency">
+              Certificate of Indigency
+            </option>
+            <option value="barangay-certificate">Barangay Certificate</option>
+          </select>
+          <div id="extraFields"></div>
+
+          <div class="buttons">
+            <button type="submit" class="submit">Submit Request</button>
+            <button type="reset" class="clear">Clear Form</button>
+          </div>
+        </form>
+
+        <!-- Scripts -->
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-column">
+          <img
+            src="src/baranggay-logo.png"
+            alt="Barangay Logo"
+            class="footer-logo"
+            style="width: 9em; height: auto"
+          />
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#2ndp">Request form</a></li>
+            <li><a href="track-status.html">Track Status</a></li>
+            <li><a href="#">Find ref</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Contact us</h4>
+          <p>Barangay Epoy,<br />Montevista</p>
+          <p>09088193990</p>
+          <p>barangaygmail@gmail.com</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Office Hours</h4>
+          <p>Monday – Friday,<br />8:00 AM to 5:00 PM</p>
+          <h4 style="margin-top: 0.5em">Follow us</h4>
+          <a
+            target="_blank"
+            href="https://www.facebook.com/profile.php?id=61553095415841"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+        </div>
+      </div>
+      <hr />
+      <p class="footer-bottom">© 2025 Barangay Epoy. All right Reserved.</p>
+    </footer>
+    <script src="src/scroll-nav.js"></script>
+    <script src="src/additional-input.js"></script>
+    <script src="src/nav_tonggle.js"></script>
+    <script type="module" src="src/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

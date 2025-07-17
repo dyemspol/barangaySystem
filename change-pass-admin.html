@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barangay Admin - Change Credentials</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- CryptoJS for hashing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .sidebar {
+        background-color: #00c853;
+        width: 220px;
+        padding: 2em 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5em;
+        color: white;
+        flex-shrink: 0;
+        z-index: 1001;
+      }
+
+      .sidebar h3,
+      .sidebar a {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+
+      .sidebar a:hover {
+        background-color: #00a243;
+      }
+
+      .mainpage {
+        flex: 1;
+        background-color: #f9f9f9;
+        padding: 1.5em;
+        overflow-y: auto;
+        height: 100vh;
+        position: relative;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        margin-bottom: 1em;
+        flex-wrap: wrap;
+      }
+
+      #datetime {
+        margin-left: auto;
+        white-space: nowrap;
+      }
+
+      .form-wrapper {
+        max-width: 20em;
+        /* background: #ffffff; */
+        padding: 2em;
+        margin-top: 1em;
+        border-radius: 8px;
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.03); */
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+      }
+
+      .form-group {
+        margin-bottom: 1.5em;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        color: #333;
+      }
+
+      .form-group input {
+        padding: 0.8em;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .save-btn {
+        background-color: #00c853;
+        color: white;
+        padding: 0.8em 1.5em;
+        border: none;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .save-btn:hover {
+        background-color: #00a243;
+      }
+
+      .message {
+        margin-top: 1em;
+        font-weight: bold;
+      }
+
+      #menu-toggle {
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: none;
+      }
+
+      #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+        h2 {
+          text-align: center;
+          font-size: 1.2em;
+          padding-top: 1em;
+        }
+
+        .form-wrapper {
+          padding: 0.4em;
+          /* background-color: #00c853; */
+          width: 80%;
+        }
+        .form-holder {
+          display: flex;
+          justify-content: center;
+        }
+
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          height: 100%;
+        }
+
+        .sidebar.show {
+          left: 0;
+        }
+
+        #menu-toggle {
+          display: block;
+        }
+
+        .mainpage {
+          height: 100vh;
+          padding: 1em;
+        }
+
+        .form-wrapper {
+          padding: 1em;
+        }
+      }
+
+      input,
+      button {
+        width: 100%;
+        padding: 0.5em 0.1em;
+        border-radius: 0.4em;
+        border: 0.5px solid black;
+      }
+
+      button {
+        margin-top: 0.9em;
+        border: none;
+        background-color: #00c853;
+        color: white;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module" src="src/auth-guard.js"></script>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <h3>Admin</h3>
+      <a href="admin_page.html"
+        ><i class="fa-solid fa-house" style="margin-right: 0.5em"></i
+        >Dashboard</a
+      >
+      <a href="req_page_admin.html"
+        ><i class="fa-solid fa-list" style="margin-right: 0.5em"></i>Request
+        List</a
+      >
+      <a href="#" style="background-color: #00a243"
+        ><i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
+        Password</a
+      >
+      <a href="#" onclick="logout()"
+        ><i
+          class="fa-solid fa-arrow-right-from-bracket"
+          style="margin-right: 0.5em"
+        ></i
+        >Logout</a
+      >
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="mainpage">
+      <div class="header">
+        <i id="menu-toggle" class="fa fa-bars"></i>
+        <span id="datetime">Loading...</span>
+      </div>
+
+      <h2 style="padding-bottom: 0.5em">Change Username & Password</h2>
+
+      <div class="form-holder">
+        <div class="form-wrapper">
+          <div class="username-group label-group">
+            <label for="">New username</label><br />
+            <input type="text" id="new-username" />
+          </div>
+          <div class="Currentpas-group label-group">
+            <label for="">Current Password</label><br />
+            <input type="password" id="current-password" />
+          </div>
+          <div class="Newpassword-group label-group">
+            <label for="">New Password</label><br />
+            <input type="password" id="newpassword" />
+          </div>
+          <div class="confirm-password label-group">
+            <label for="confirm-password">Confirm Password</label><br />
+            <input type="password" id="confirm-password" />
+          </div>
+          <div>
+            <button id="bt">Save</button>
+          </div>
+          <p style="text-align: center" id="message" class="message"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock Script -->
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const options = {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        };
+        document.getElementById("datetime").textContent = now.toLocaleString(
+          "en-US",
+          options
+        );
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+
+    <!-- Sidebar toggle -->
+    <script>
+      const toggle = document.getElementById("menu-toggle");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+
+      toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("show");
+        overlay.style.display = sidebar.classList.contains("show")
+          ? "block"
+          : "none";
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("show");
+        overlay.style.display = "none";
+      });
+    </script>
+
+    <!-- External Firebase logic -->
+    <script type="module" src="src/change-pass-admin.js"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="src/logout.js"></script>
+  </body>
+</html>

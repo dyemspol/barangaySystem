@@ -1,0 +1,36 @@
+// src/additional-input.js
+const documentType = document.getElementById("documentType");
+const extraFields = document.getElementById("extraFields");
+
+documentType.addEventListener("change", () => {
+  const value = documentType.value;
+  extraFields.innerHTML = "";
+
+  const uploadNote = `
+    <small style="margin-bottom: 0.4em;">
+      Upload your valid ID to Google Drive and paste the shareable link below.
+    </small>
+    <input
+      type="url"
+      name="validIDLink"
+      placeholder="Paste Google Drive link here"
+      required
+    />
+    <input type="text" placeholder="Purpose" required />
+  `;
+
+  if (
+    value === "barangay-clearance" ||
+    value === "certificate-indigency" ||
+    value === "activity-permit" ||
+    value === "certificate-residency" ||
+    value === "barangay-certificate"
+  ) {
+    extraFields.innerHTML = uploadNote;
+  } else if (value === "business-permit") {
+    extraFields.innerHTML = `
+      <input type="text" placeholder="Name of the business" />
+      ${uploadNote}
+    `;
+  }
+});

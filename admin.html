@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/admin_login.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="left-side">
+          <img src="src/baranggay-logo.png" alt="" />
+        </div>
+        <form class="right-side" action="">
+          <h3 style="text-align: center">Admin Access</h3>
+          <div class="inputs">
+            <input id="username" type="text" placeholder="Username" />
+            <input id="password" type="password" placeholder="Password" />
+          </div>
+          <input onclick="login()" class="login" type="button" value="Login" />
+          <p style="color: red; text-align: center" id="p"></p>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="src/firebase.config.js"></script>
+    <script type="module" src="src/admin-authentication.js"></script>
+  </body>
+</html>

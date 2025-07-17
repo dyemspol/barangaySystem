@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barangay Admin</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+      }
+
+      .sidebar {
+        background-color: #00c853;
+        width: 220px;
+        padding: 2em 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5em;
+        color: white;
+        flex-shrink: 0;
+        z-index: 1001;
+        position: relative;
+      }
+
+      .sidebar a,
+      .sidebar h3 {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+
+      .sidebar a:hover {
+        background-color: #00a243;
+      }
+
+      .mainpage {
+        flex: 1;
+        background-color: #f9f9f9;
+        padding: 1.5em;
+        overflow-y: auto;
+        height: 100vh;
+      }
+
+      .header {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 0.9rem;
+        margin-bottom: 1em;
+        align-items: center;
+      }
+
+      #menu-toggle {
+        display: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        margin-right: auto;
+      }
+
+      .cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        margin-bottom: 2em;
+      }
+
+      .card {
+        flex: 1;
+        min-width: 180px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1em;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+      }
+
+      .yellow {
+        background-color: #ffeb3b;
+      }
+
+      .blue {
+        background-color: #90caf9;
+      }
+
+      .green {
+        background-color: #69f0ae;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 0.8em;
+        border-bottom: 1px solid #ddd;
+        font-size: 0.95rem;
+      }
+
+      th {
+        background-color: #f1f1f1;
+      }
+
+      .view-btn {
+        background-color: #00c853;
+        border: none;
+        color: white;
+        padding: 0.4em 0.8em;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .status-pending {
+        color: orange;
+        font-weight: bold;
+      }
+
+      .status-processing {
+        color: blue;
+        font-weight: bold;
+      }
+
+      .status-complete {
+        color: green;
+        font-weight: bold;
+      }
+
+      #overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+        }
+
+        #menu-toggle {
+          display: inline-block;
+        }
+
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          height: 100%;
+          width: 220px;
+          background-color: #00c853;
+          flex-direction: column;
+          padding-top: 2em;
+          transition: left 0.3s ease;
+        }
+
+        .sidebar.show {
+          left: 0;
+        }
+
+        .mainpage {
+          height: 100vh;
+          margin-left: 0;
+        }
+
+        .cards {
+          display: grid;
+          grid-template-columns: repeat(2, 0.5fr);
+          gap: 1em;
+        }
+
+        .card {
+          aspect-ratio: 1 / 1;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          flex-direction: column;
+        }
+
+        .card span:first-child {
+          display: block;
+          font-size: 0.9rem;
+          margin-bottom: 0.5em;
+        }
+
+        .card span:last-child {
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        thead {
+          display: none;
+        }
+
+        tr {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+          margin-bottom: 1em;
+          padding: 0.5em;
+        }
+
+        td {
+          padding: 1em 1em 1em 50%;
+          position: relative;
+          border: none;
+          border-bottom: 1px solid #eee;
+        }
+
+        td::before {
+          position: absolute;
+          left: 1em;
+          top: 1em;
+          width: 45%;
+          white-space: nowrap;
+          font-weight: bold;
+          content: attr(data-label);
+        }
+
+        td:last-child {
+          border-bottom: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="module" src="src/auth-guard.js"></script>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <img src="src/baranggay-logo.png" alt="" />
+      <h3>Admin</h3>
+      <a style="background-color: #00a243" href="admin_page.html">
+        <i
+          class="fa-solid fa-house navlinks-logo"
+          style="margin-right: 0.5em"
+        ></i
+        >Dashboard
+      </a>
+      <a href="req_page_admin.html">
+        <i
+          class="fa-solid fa-list navlinks-logo"
+          style="margin-right: 0.5em"
+        ></i
+        >Request List
+      </a>
+      <a href="change-pass-admin.html">
+        <i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
+        Password
+      </a>
+      <a href="#" onclick="logout()">
+        <i
+          class="fa-solid fa-arrow-right-from-bracket navlinks-logo"
+          style="margin-right: 0.5em"
+        ></i
+        >Logout
+      </a>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="mainpage">
+      <div class="header">
+        <i id="menu-toggle" class="fa fa-bars"></i>
+        <span id="datetime">2025-07-11 10:00 AM</span>
+      </div>
+
+      <div class="cards">
+        <div class="card yellow">
+          <span>Today's Request</span>
+          <span id="todaysCount">0</span>
+        </div>
+        <div class="card blue">
+          <span>Pending</span>
+          <span id="pendingCount">0</span>
+        </div>
+        <div class="card green">
+          <span>Completed</span>
+          <span id="completeCount">0</span>
+        </div>
+        <div class="card green">
+          <span>Total Request</span>
+          <span id="totalCount">0</span>
+        </div>
+      </div>
+
+      <h2>Today's Request</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Ref ID</th>
+              <th>Full Name</th>
+              <th>Document Type</th>
+              <th>Date Requested</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tablebody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- JS: DateTime -->
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const options = {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        };
+        document.getElementById("datetime").textContent = now.toLocaleString(
+          "en-US",
+          options
+        );
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+
+    <!-- JS: Sidebar Toggle -->
+    <script>
+      const toggleBtn = document.getElementById("menu-toggle");
+      const sidebar = document.querySelector(".sidebar");
+      const overlay = document.getElementById("overlay");
+
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("show");
+        overlay.style.display = sidebar.classList.contains("show")
+          ? "block"
+          : "none";
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("show");
+        overlay.style.display = "none";
+      });
+    </script>
+
+    <script type="module" src="src/admin-main-page.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function logout() {
+        sessionStorage.removeItem("isAdminLoggedIn");
+        window.location.href = "admin.html";
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("eF9FrGNpCZrOXsvWm"); // Replace with your public key
+    </script>
+  </body>
+</html>
