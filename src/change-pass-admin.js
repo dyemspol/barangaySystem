@@ -24,7 +24,7 @@ button.addEventListener("click", () => {
   const newPassword = newPasswordInput.value.trim();
   const confirmPassword = confirmPasswordInput.value.trim();
 
-  // Get current data
+  // Get current admin data
   get(adminRef)
     .then((snapshot) => {
       if (!snapshot.exists()) {
@@ -34,78 +34,46 @@ button.addEventListener("click", () => {
 
       const adminData = snapshot.val();
 
+      // Validate current password
       if (currentPassword !== adminData.password) {
         message.textContent = "Current password is incorrect.";
         return;
       }
 
+      // Check password confirmation
       if (newPassword !== confirmPassword) {
         message.textContent = "New passwords do not match.";
         return;
       }
 
+      // Prepare updated data
       const updatedData = {
         username: newUsername || adminData.username, // keep old if blank
         password: newPassword,
       };
 
-      // Update Firebase
-      update(adminRef, updatedData)
-        .then(() => {
-          usernameInput.value = "";
-          currentPasswordInput.value = "";
-          newPasswordInput.value = "";
-          confirmPasswordInput.value = "";
+      // Update in Firebase
+      return update(adminRef, updatedData);
+    })
+    .then(() => {
+      // If update was successful, reset inputs and redirect
+      usernameInput.value = "";
+      currentPasswordInput.value = "";
+      newPasswordInput.value = "";
+      confirmPasswordInput.value = "";
 
-          Swal.fire({
-            icon: "success",
-            title: "Updated!",
-            text: `Credentials updated successfully`,
-          }).then(() => {
-            sessionStorage.removeItem("isAdminLoggedIn");
-            window.location.href = "admin.html";
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-
-
-    if (currentPassword !== adminData.password) {
-      message.textContent = "Current password is incorrect.";
-      return;
-    }
-
-    // Prepare updated data
-    const updatedData = {
-      username: isChangingUsername ? newUsername : adminData.username,
-      password: isChangingPassword ? newPassword : adminData.password,
-    };
-
-    // Update Firebase
-    await update(adminRef, updatedData);
-
-    // Clear inputs
-    usernameInput.value = "";
-    currentPasswordInput.value = "";
-    newPasswordInput.value = "";
-    confirmPasswordInput.value = "";
-
-    Swal.fire({
-      icon: "success",
-      title: "Updated!",
-      text: "Credentials updated successfully.",
-    }).then(() => {
-      sessionStorage.removeItem("isAdminLoggedIn");
-      window.location.href = "../../admin.html";
-
-          Swal.fire("Error", "Failed to update data.", "error");
-        });
+      Swal.fire({
+        icon: "success",
+        title: "Updated!",
+        text: "Credentials updated successfully.",
+      }).then(() => {
+        sessionStorage.removeItem("isAdminLoggedIn");
+        window.location.href = "admin.html";
+      });
     })
     .catch((error) => {
       console.error(error);
-      message.textContent = "Failed to load admin data.";
-      Swal.fire("Error", "Could not load admin data.", "error");
-
+      message.textContent = "Failed to update credentials.";
+      Swal.fire("Error", "Something went wrong during update.", "error");
     });
-  });
 });
