@@ -79,7 +79,7 @@ button.addEventListener("click", async () => {
       text: "Credentials updated successfully.",
     }).then(() => {
       sessionStorage.removeItem("isAdminLoggedIn");
-      window.location.href = "admin.html";
+      window.location.href = "../../admin.html";
     });
   } catch (error) {
     console.error(error);

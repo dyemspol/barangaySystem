@@ -117,7 +117,7 @@ button.addEventListener("click", () => {
       confirmButtonText: "Continue",
       confirmButtonColor: "#3085d6",
     }).then(() => {
-      window.location.href = "track-status.html";
+      window.location.href = "../../track-status.html";
     });
   } else {
     message.textContent =

@@ -83,7 +83,7 @@ findButton.addEventListener("click", async (e) => {
               text: "The OTP has been sent to your email. It is valid for 5 minutes.",
               confirmButtonText: "Continue",
             }).then(() => {
-              window.location.href = "OTP.html";
+              window.location.href = "../../OTP.html";
             });
           })
           .catch((err) => {

@@ -10,7 +10,7 @@ documentType.addEventListener("change", () => {
     <small style="margin-bottom: 0.4em; display: block;">
       Upload your valid ID to <strong>Google Drive</strong> or 
       <a href="https://imgbb.com/" target="_blank" style="color: #3e12aeff; text-decoration: underline; font-weight: bold;">ImgBB</a>, 
-      then paste the shareable link below — or upload the file directly if available.
+      then paste the shareable link below.  
     </small>
     <input
       type="url"
