@@ -1,4 +1,3 @@
-// src/main.js
 import {
   database,
   ref,
@@ -9,6 +8,33 @@ import {
 
 const form = document.querySelector("form");
 
+// ======= AUTO-SAVE FORM DATA =======
+// Restore data on load
+window.addEventListener("load", () => {
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+  if (savedData) {
+    Object.keys(savedData).forEach((key) => {
+      const input = form.querySelector(`[name="${key}"]`);
+      if (input) input.value = savedData[key];
+    });
+  }
+});
+
+// Save data on input change
+form.addEventListener("input", () => {
+  const formData = {};
+  [...form.elements].forEach((el) => {
+    if ((el.name || el.id) && el.type !== "submit" && el.type !== "reset") {
+      formData[el.name || el.id] = el.value;
+    }
+  });
+  localStorage.setItem("formData", JSON.stringify(formData));
+});
+
+// Clear saved data on submit or reset
+form.addEventListener("reset", () => localStorage.removeItem("formData"));
+
+// ======= FORM SUBMISSION =======
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -22,19 +48,19 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  const loader = document.getElementById("loader");
-  const fullname = form.querySelector('input[placeholder="Full name"]').value;
-  const email = form.querySelector('input[placeholder="Email"]').value;
-  const dob = form.querySelector('input[type="date"]').value;
-  const age = form.querySelector('input[placeholder="Age"]').value;
-  const gender = form.querySelectorAll("select")[0].value;
-  const civilStatus = form.querySelectorAll("select")[1].value;
-  const purok = form.querySelectorAll("select")[2].value;
+  const loaderModal = document.getElementById("loaderModal");
+  const fullname = form.querySelector('input[name="fullName"]').value;
+  const email = form.querySelector('input[name="email"]').value;
+  const dob = form.querySelector('input[name="dob"]').value;
+  const age = form.querySelector('input[name="age"]').value;
+  const gender = form.querySelector('select[name="gender"]').value;
+  const civilStatus = form.querySelector('select[name="civilStatus"]').value;
+  const purok = form.querySelector('select[name="purok"]').value;
   const documentType = document.getElementById("documentType").value;
-  const purpose = form.querySelector('input[placeholder="Purpose"]').value;
+  const purpose = form.querySelector('input[name="purpose"]')?.value || "";
 
   const businessNameInput = document.querySelector(
-    'input[placeholder="Name of the business"]'
+    'input[name="businessName"]'
   );
   const validIDLinkInput = document.querySelector('input[name="validIDLink"]');
 
@@ -49,11 +75,13 @@ form.addEventListener("submit", async (e) => {
     minute: "2-digit",
     hour12: true,
   });
+
   function generateRefNumber() {
     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const randomPart = Math.floor(1000 + Math.random() * 9000);
     return `BRGY-${datePart}-${randomPart}`;
   }
+
   function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
   }
@@ -61,6 +89,7 @@ form.addEventListener("submit", async (e) => {
   const referenceNumber = generateRefNumber();
   const OTP = generateOTP();
   loaderModal.style.display = "flex";
+
   push(ref(database, "documentRequests/"), {
     referenceNumber,
     fullname,
@@ -84,18 +113,18 @@ form.addEventListener("submit", async (e) => {
         title: "Your document request has been successfully submitted.",
         icon: "success",
         html: `
-       
-        <p>Reference Number:</p>
-        <strong style="font-size: 1.5em;">${referenceNumber}</strong>
-        <p>Screenshot or save this number to check your status later.</p>
-      
-    `,
+          <p>Reference Number:</p>
+          <strong style="font-size: 1.5em;">${referenceNumber}</strong>
+          <p>Screenshot or save this number to check your status later.</p>
+        `,
         confirmButtonText: "OK",
       });
       form.reset();
+      localStorage.removeItem("formData"); // clear saved draft after submission
     })
     .catch((error) => {
       console.error(error);
+      loaderModal.style.display = "none";
       Swal.fire({
         icon: "error",
         title: "Oops...",

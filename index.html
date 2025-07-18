@@ -87,19 +87,19 @@
 
         <!-- Make sure your other sections, nav, and style are in place -->
         <form>
-          <input type="text" placeholder="Full name" required />
-          <input type="email" placeholder="Email" required />
+          <input type="text" name="fullName" placeholder="Full name" required />
+          <input type="email" name="email" placeholder="Email" required />
           <div class="two-cols">
-            <input type="date" placeholder="Birthday" required />
-            <input type="number" placeholder="Age" required />
+            <input type="date" name="dob" placeholder="Birthday" required />
+            <input type="number" name="age" placeholder="Age" required />
           </div>
           <div class="two-cols">
-            <select required>
+            <select name="gender" required>
               <option value="">Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
-            <select required>
+            <select name="civilStatus" required>
               <option value="">Civil Status</option>
               <option value="Single">Single</option>
               <option value="Married">Married</option>
@@ -110,7 +110,7 @@
 
           <h4>Address</h4>
           <div class="two-cols">
-            <select required>
+            <select name="purok" required>
               <option value="">Select purok</option>
               <option value="Canidkid, Purok 1">Canidkid, Purok 1</option>
               <option value="Canidkid, Purok 2">Canidkid, Purok 2</option>
@@ -119,8 +119,9 @@
               <option value="Canidkid, Purok 5">Canidkid, Purok 5</option>
             </select>
           </div>
+
           <h4>Document Request Details</h4>
-          <select id="documentType" required>
+          <select id="documentType" name="documentType" required>
             <option value="">Select type of Document</option>
             <option value="business-permit">Business Permit</option>
             <option value="barangay-clearance">Barangay Clearance</option>
@@ -130,6 +131,7 @@
             <option value="barangay-certificate">Barangay Certificate</option>
           </select>
           <div id="extraFields"></div>
+
           <div
             style="
               width: 100%;

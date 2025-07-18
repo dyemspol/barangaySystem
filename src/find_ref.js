@@ -56,11 +56,12 @@ findButton.addEventListener("click", async (e) => {
         matchFound = true;
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes from now
         console.log("🔐 Match found. Generated OTP:", otp);
 
-        update(ref(database, `documentRequests/${key}`), { otp })
+        update(ref(database, `documentRequests/${key}`), { otp, otpExpiry })
           .then(() => {
-            console.log("✅ OTP saved to database");
+            console.log("✅ OTP and expiry saved to database");
 
             // Send Email using EmailJS
             return emailjs.send("service_xjgaz8u", "template_ggx0gmc", {
@@ -73,10 +74,13 @@ findButton.addEventListener("click", async (e) => {
             loader.style.display = "none";
             console.log("📨 Email sent successfully");
 
+            // Store expiry in localStorage for countdown timer on OTP page
+            localStorage.setItem("otpExpiry", otpExpiry);
+
             Swal.fire({
               icon: "success",
               title: "OTP Sent!",
-              text: "The OTP has been sent to your email.",
+              text: "The OTP has been sent to your email. It is valid for 5 minutes.",
               confirmButtonText: "Continue",
             }).then(() => {
               window.location.href = "OTP.html";
