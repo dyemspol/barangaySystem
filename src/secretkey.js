@@ -37,7 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 message.style.color = "green";
                 message.textContent = "Admin credentials updated successfully!";
                 setTimeout(() => {
-                  window.location.href = "../../admin.html";
+                  window.location.href = "../admin.html";
                 }, 2000); // 2000 milliseconds = 2 seconds
               })
               .catch((error) => {
