@@ -55,6 +55,17 @@
         <p>We've sent a 6-digit code to your email.</p>
       </div>
       <input type="text" id="findref" placeholder="Enter your code" />
+
+      <p style="margin-top: 1.4em; font-size: 0.9em">
+        Didn't receive OTP code?
+        <a
+          href="#"
+          id="resendLink"
+          style="color: #2cbf62; font-weight: 600; cursor: pointer"
+          >Resend code</a
+        >
+      </p>
+
       <button type="submit">Submit</button>
       <p
         id="message"
@@ -105,8 +116,11 @@
     </footer>
     <script src="src/nav_tonggle.js"></script>
     <script type="module" src="src/firebase.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+      emailjs.init("eF9FrGNpCZrOXsvWm"); // Replace with your public key
+    </script>
     <!-- <script type="module" src="src/find_ref.js"></script> -->
     <script type="module" src="src/OTP.js"></script>
   </body>
