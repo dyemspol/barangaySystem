@@ -204,15 +204,44 @@
         color: white;
         font-weight: 600;
       }
+      .loader {
+        z-index: 20000;
+        width: 50px;
+        --b: 8px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        padding: 1px;
+        background: conic-gradient(#0000 10%, #2cbf62) content-box;
+        -webkit-mask: repeating-conic-gradient(
+            #0000 0deg,
+            #000 1deg 20deg,
+            #0000 21deg 36deg
+          ),
+          radial-gradient(
+            farthest-side,
+            #0000 calc(100% - var(--b) - 1px),
+            #000 calc(100% - var(--b))
+          );
+        -webkit-mask-composite: destination-in;
+        mask-composite: intersect;
+        animation: l4 1s infinite steps(10);
+      }
+
+      @keyframes l4 {
+        to {
+          transform: rotate(1turn);
+        }
+      }
     </style>
   </head>
 
   <body>
     <script type="module" src="src/auth-guard.js"></script>
     <!-- Sidebar -->
+
     <div id="sidebar" class="sidebar">
       <img src="src/baranggay-logo.png" alt="" />
-      <h3>Admin</h3>
+      <h3 style="text-align: center">Admin</h3>
       <a href="admin_page.html">
         <i
           class="fa-solid fa-house navlinks-logo"
@@ -228,11 +257,14 @@
         Request List
       </a>
       <a style="background-color: #00a243" href="change-pass-admin.html">
-        <i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
-        Password
+        <i class="fa-solid fa-key" style="margin-right: 0.7em"></i>Change
+        Passkey
       </a>
       <a href="#" onclick="logout()">
-        <i class="fa-solid fa-arrow-right-from-bracket navlinks-logo"></i>
+        <i
+          style="margin-right: 0.5em"
+          class="fa-solid fa-arrow-right-from-bracket navlinks-logo"
+        ></i>
         Logout
       </a>
     </div>
@@ -253,7 +285,7 @@
         <div class="form-wrapper">
           <div class="username-group label-group">
             <label for="">New username</label><br />
-            <input type="text" id="new-username" />
+            <input maxlength="20" type="text" id="new-username" />
           </div>
           <div class="Currentpas-group label-group">
             <label for="">Current Password</label><br />
@@ -261,16 +293,25 @@
           </div>
           <div class="Newpassword-group label-group">
             <label for="">New Password</label><br />
-            <input type="password" id="newpassword" />
+            <input maxlength="8" type="password" id="newpassword" />
           </div>
           <div class="confirm-password label-group">
             <label for="confirm-password">Confirm Password</label><br />
-            <input type="password" id="confirm-password" />
+            <input maxlength="8" type="password" id="confirm-password" />
           </div>
           <div>
             <button id="bt">Save</button>
           </div>
-          <p style="text-align: center" id="message" class="message"></p>
+          <p
+            style="
+              text-align: center;
+              color: red;
+              font-size: 0.9em;
+              font-weight: 600;
+            "
+            id="message"
+            class="message"
+          ></p>
         </div>
       </div>
     </div>

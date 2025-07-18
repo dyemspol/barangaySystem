@@ -41,6 +41,10 @@ nav > .menulinks {
   gap: 2.3em;
   a {
     color: rgb(255, 255, 255);
+
+    &:hover {
+      color: #d6d6d6;
+    }
   }
 }
 .mobile-menulinks.open {
