@@ -37,7 +37,8 @@
         margin-bottom: 1em;
       }
 
-      input {
+      input,
+      textarea {
         width: 100%;
         padding: 0.8em;
         margin-bottom: 1em;
@@ -56,7 +57,7 @@
         font-weight: bold;
       }
 
-      .result {
+      .result-box {
         margin-top: 1.5em;
         padding: 1em;
         background: #f9f9f9;
@@ -79,7 +80,7 @@
       }
 
       .completed {
-        background-color: #4caf50; /* ✅ Green */
+        background-color: #4caf50;
       }
 
       .processing {
@@ -90,14 +91,36 @@
         background-color: #ffc107;
         color: #000;
       }
+
+      .rejected {
+        background-color: #e53935;
+      }
+
+      .reason-container {
+        margin-top: 1em;
+      }
+
+      .reason-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.3em;
+      }
+
+      .reason-textarea {
+        resize: none;
+        min-height: 60px;
+        background-color: #fff0f0;
+        border: 1px solid #e57373;
+        color: #b71c1c;
+      }
     </style>
   </head>
   <body>
     <header>
       <nav>
         <a href="#home">
-          <img class="nav-baranggay-logo" src="src/baranggay-logo.png" alt=""
-        /></a>
+          <img class="nav-baranggay-logo" src="src/baranggay-logo.png" alt="" />
+        </a>
 
         <div class="menulinks">
           <a href="index.html#home">Home</a>
@@ -140,18 +163,27 @@
           id="message"
           style="text-align: center; font-size: 0.8em; padding-top: 1em"
         ></p>
-        <div id="result" class="result" style="display: none">
-          <p><span class="label">Name:</span> <span id="name"></span></p>
+
+        <div id="result" class="result-box" style="display: none">
+          <p><strong>Name:</strong> <span id="name"></span></p>
+          <p><strong>Document Type:</strong> <span id="docType"></span></p>
           <p>
-            <span class="label">Document Type:</span> <span id="docType"></span>
+            <strong>Status:</strong> <span id="status" class="status"></span>
           </p>
-          <p>
-            <span class="label">Status:</span>
-            <span id="status" class="status"></span>
-          </p>
+
+          <!-- Reason Section -->
+          <div
+            id="reasonContainer"
+            class="reason-container"
+            style="display: none"
+          >
+            <label for="reason" class="reason-label">Rejection Reason</label>
+            <textarea id="reason" class="reason-textarea" readonly></textarea>
+          </div>
         </div>
       </div>
     </div>
+
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-column">
@@ -187,15 +219,16 @@
           <a
             target="_blank"
             href="https://www.facebook.com/profile.php?id=61553095415841"
-            ><i class="fa-brands fa-facebook"></i
-          ></a>
+          >
+            <i class="fa-brands fa-facebook"></i>
+          </a>
         </div>
       </div>
       <hr />
-      <p class="footer-bottom">© 2025 Barangay Epoy. All right Reserved.</p>
+      <p class="footer-bottom">© 2025 Barangay Epoy. All rights reserved.</p>
     </footer>
+
     <script src="src/nav_tonggle.js"></script>
-    <!-- <script type="module" src="src/find_ref.js"></script> -->
     <script type="module" src="src/trackstatus.js"></script>
   </body>
 </html>

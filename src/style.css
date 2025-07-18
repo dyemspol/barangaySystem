@@ -355,6 +355,7 @@ form select {
 
 /* Your existing loader animation */
 .loader {
+  z-index: 20000;
   width: 50px;
   --b: 8px;
   aspect-ratio: 1;

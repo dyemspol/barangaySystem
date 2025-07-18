@@ -107,6 +107,7 @@
               <option value="Divorced">Divorced</option>
             </select>
           </div>
+
           <h4>Address</h4>
           <div class="two-cols">
             <select required>
@@ -129,7 +130,20 @@
             <option value="barangay-certificate">Barangay Certificate</option>
           </select>
           <div id="extraFields"></div>
-
+          <div
+            style="
+              width: 100%;
+              /* background-color: aqua; */
+              display: flex;
+              justify-content: center;
+              margin: 0.5em 0;
+            "
+          >
+            <div
+              class="g-recaptcha"
+              data-sitekey="6LdJ-IYrAAAAAD-8HBVtoYFjxbdtOuIL16R77rgK"
+            ></div>
+          </div>
           <div class="buttons">
             <button type="submit" class="submit">Submit Request</button>
             <button type="reset" class="clear">Clear Form</button>
@@ -181,11 +195,13 @@
       <hr />
       <p class="footer-bottom">© 2025 Barangay Epoy. All right Reserved.</p>
     </footer>
+
     <script src="src/scroll-nav.js"></script>
     <script src="src/additional-input.js"></script>
     <script src="src/nav_tonggle.js"></script>
     <script type="module" src="src/main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </body>
 </html>

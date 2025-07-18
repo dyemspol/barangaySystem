@@ -39,6 +39,7 @@
         color: white;
         flex-shrink: 0;
         z-index: 1001;
+        transition: left 0.3s ease-in-out;
       }
 
       .sidebar h3,
@@ -80,11 +81,9 @@
 
       .form-wrapper {
         max-width: 20em;
-        /* background: #ffffff; */
         padding: 2em;
         margin-top: 1em;
         border-radius: 8px;
-        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.03); */
         display: flex;
         flex-direction: column;
         gap: 0.8em;
@@ -158,7 +157,6 @@
 
         .form-wrapper {
           padding: 0.4em;
-          /* background-color: #00c853; */
           width: 80%;
         }
         .form-holder {
@@ -212,33 +210,30 @@
   <body>
     <script type="module" src="src/auth-guard.js"></script>
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div id="sidebar" class="sidebar">
       <img src="src/baranggay-logo.png" alt="" />
       <h3>Admin</h3>
       <a href="admin_page.html">
         <i
           class="fa-solid fa-house navlinks-logo"
           style="margin-right: 0.5em"
-        ></i
-        >Dashboard
+        ></i>
+        Dashboard
       </a>
       <a href="req_page_admin.html">
         <i
           class="fa-solid fa-list navlinks-logo"
           style="margin-right: 0.5em"
-        ></i
-        >Request List
+        ></i>
+        Request List
       </a>
       <a style="background-color: #00a243" href="change-pass-admin.html">
         <i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
         Password
       </a>
       <a href="#" onclick="logout()">
-        <i
-          class="fa-solid fa-arrow-right-from-bracket navlinks-logo"
-          style="margin-right: 0.5em"
-        ></i
-        >Logout
+        <i class="fa-solid fa-arrow-right-from-bracket navlinks-logo"></i>
+        Logout
       </a>
     </div>
 
@@ -318,6 +313,11 @@
         sidebar.classList.remove("show");
         overlay.style.display = "none";
       });
+
+      function logout() {
+        sessionStorage.removeItem("isAdminLoggedIn");
+        window.location.href = "admin.html";
+      }
     </script>
 
     <!-- External Firebase logic -->

@@ -23,7 +23,6 @@
       body {
         display: flex;
         min-height: 100vh;
-        overflow: hidden;
       }
 
       .sidebar {
@@ -79,6 +78,37 @@
         white-space: nowrap;
       }
 
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        margin: 1em 0;
+        align-items: center;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        background: white;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .filter-group label {
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .filter-group select,
+      .filter-group input {
+        padding: 0.4em 0.6em;
+        font-size: 0.9rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
       .table-container {
         overflow-x: auto;
       }
@@ -102,6 +132,39 @@
         background-color: #f1f1f1;
       }
 
+      .status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .status.pending {
+        background-color: #ffb300;
+      }
+
+      .status.processing {
+        background-color: #29b6f6;
+      }
+
+      .status.completed {
+        background-color: #66bb6a;
+      }
+
+      .status.rejected {
+        background-color: #ef5350;
+      }
+
+      .reason-text {
+        background-color: #ffcdd2;
+        color: #b71c1c;
+        padding: 6px 10px;
+        border-radius: 4px;
+        margin-top: 0.5em;
+        display: inline-block;
+      }
+
       #overlay {
         display: none;
         position: fixed;
@@ -112,6 +175,7 @@
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1000;
       }
+
       .view-btn {
         background-color: #00c853;
         border: none;
@@ -120,6 +184,7 @@
         border-radius: 4px;
         cursor: pointer;
       }
+
       @media (max-width: 768px) {
         body {
           flex-direction: column;
@@ -131,7 +196,6 @@
           left: -100%;
           height: 100%;
           z-index: 1001;
-          background-color: #00c853;
         }
 
         .sidebar.show {
@@ -171,7 +235,6 @@
         td {
           padding: 1em 1em 1em 50%;
           position: relative;
-          border-bottom: 1px solid #eee;
         }
 
         td::before {
@@ -182,42 +245,85 @@
           font-weight: bold;
           content: attr(data-label);
         }
+
         h2 {
           text-align: center;
         }
       }
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        margin: 1em 0;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        background: white;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .filter-group label {
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+
+      .filter-group select,
+      .filter-group input {
+        padding: 0.4em 0.6em;
+        font-size: 0.9rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        min-width: 140px;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 600px) {
+        .filter-bar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filter-group {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .filter-group label {
+          flex: 1;
+        }
+
+        .filter-group select,
+        .filter-group input {
+          flex: 2;
+        }
+      }
     </style>
   </head>
+
   <body>
     <script type="module" src="src/auth-guard.js"></script>
+
     <!-- Sidebar -->
-    <div class="sidebar">
-      <img src="src/baranggay-logo.png" alt="" />
+    <div class="sidebar" id="sidebar">
+      <img src="src/baranggay-logo.png" alt="Logo" />
       <h3>Admin</h3>
       <a href="admin_page.html">
-        <i
-          class="fa-solid fa-house navlinks-logo"
-          style="margin-right: 0.5em"
-        ></i
-        >Dashboard
+        <i class="fa-solid fa-house navlinks-logo"></i> Dashboard
       </a>
       <a style="background-color: #00a243" href="req_page_admin.html">
-        <i
-          class="fa-solid fa-list navlinks-logo"
-          style="margin-right: 0.5em"
-        ></i
-        >Request List
+        <i class="fa-solid fa-list navlinks-logo"></i> Request List
       </a>
       <a href="change-pass-admin.html">
-        <i class="fa-solid fa-key" style="margin-right: 0.5em"></i>Change
-        Password
+        <i class="fa-solid fa-key"></i> Change Password
       </a>
       <a href="#" onclick="logout()">
-        <i
-          class="fa-solid fa-arrow-right-from-bracket navlinks-logo"
-          style="margin-right: 0.5em"
-        ></i
-        >Logout
+        <i class="fa-solid fa-arrow-right-from-bracket navlinks-logo"></i>
+        Logout
       </a>
     </div>
 
@@ -231,7 +337,46 @@
         <span id="datetime">Loading...</span>
       </div>
 
-      <h2 style="padding-bottom: 0.5em">All Request</h2>
+      <h2>All Request</h2>
+
+      <!-- Filters -->
+      <!-- Filter Elements -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <i class="fa-solid fa-filter"></i>
+          <label for="statusFilter">Status:</label>
+          <select id="statusFilter">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Processing">Processing</option>
+            <option value="Completed">Completed</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <i class="fa-solid fa-file-lines"></i>
+          <label for="docTypeFilter">Document Type:</label>
+          <select id="docTypeFilter">
+            <option value="">All</option>
+            <option value="business-permit">Business Permit</option>
+            <option value="barangay-clearance">Barangay Clearance</option>
+            <option value="certificate-indigency">
+              Certificate of Indigency
+            </option>
+            <option value="barangay-certificate">Barangay Certificate</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name or ref ID"
+          />
+        </div>
+      </div>
 
       <div class="table-container">
         <table>
@@ -246,13 +391,13 @@
             </tr>
           </thead>
           <tbody id="tablebody">
-            <!-- Populated by JavaScript -->
+            <!-- Populated by req_list.js -->
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- JavaScript -->
     <script>
       function updateClock() {
         const now = new Date();
@@ -292,11 +437,12 @@
       });
     </script>
 
+    <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="src/logout.js"></script>
     <script>
-      emailjs.init("eF9FrGNpCZrOXsvWm"); // Replace with your public key
+      emailjs.init("eF9FrGNpCZrOXsvWm");
     </script>
     <script type="module" src="src/req_list.js"></script>
   </body>

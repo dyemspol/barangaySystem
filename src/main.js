@@ -12,6 +12,16 @@ const form = document.querySelector("form");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const captchaResponse = grecaptcha.getResponse();
+  if (!captchaResponse) {
+    Swal.fire({
+      icon: "error",
+      title: "CAPTCHA Required",
+      text: "Please verify that you are not a robot.",
+    });
+    return;
+  }
+
   const loader = document.getElementById("loader");
   const fullname = form.querySelector('input[placeholder="Full name"]').value;
   const email = form.querySelector('input[placeholder="Email"]').value;
@@ -66,6 +76,7 @@ form.addEventListener("submit", async (e) => {
     validIDLink,
     Submit_time: time,
     otp: OTP,
+    label: "",
   })
     .then(() => {
       loaderModal.style.display = "none";

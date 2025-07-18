@@ -12,6 +12,8 @@ window.track = async function () {
   const docTypeField = document.getElementById("docType");
   const statusField = document.getElementById("status");
   const message = document.getElementById("message");
+  const reasonField = document.getElementById("reason");
+  const reasonContainer = document.getElementById("reasonContainer");
 
   // Reset display
   resultBox.style.display = "none";
@@ -19,6 +21,8 @@ window.track = async function () {
   docTypeField.textContent = "";
   statusField.textContent = "";
   message.textContent = "";
+  reasonField.value = "";
+  reasonContainer.style.display = "none";
 
   if (!refnumber) {
     message.textContent = "Please enter your reference number.";
@@ -39,20 +43,28 @@ window.track = async function () {
 
         nameField.textContent = data.fullname || "N/A";
         docTypeField.textContent = data.documentType || "N/A";
-        statusField.textContent = statusRaw; // original case
+        statusField.textContent = statusRaw;
 
         const statusClass =
           status === "completed"
             ? "completed"
             : status === "processing"
             ? "processing"
+            : status === "rejected"
+            ? "rejected"
             : "pending";
 
         statusField.className = "status " + statusClass;
+
+        if (status === "rejected") {
+          reasonField.value = data.label || "No reason provided.";
+          reasonContainer.style.display = "block";
+        }
+
         resultBox.style.display = "block";
         message.textContent = "";
         found = true;
-        return true; // stop loop
+        return true;
       }
     });
 
