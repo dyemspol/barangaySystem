@@ -4,7 +4,7 @@ import {
   ref,
   get,
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-
+import "/src/nav_tonggle.js";
 window.track = async function () {
   const refnumber = document.getElementById("email").value.trim();
   const resultBox = document.getElementById("result");

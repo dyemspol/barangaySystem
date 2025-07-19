@@ -39,7 +39,7 @@ window.login = async function () {
 
         // Redirect to admin dashboard
         setTimeout(() => {
-          window.location.href = "admin_page.html";
+          window.location.href = "/admin_page.html";
         }, 1000);
       } else {
         errorDisplay.style.color = "red";

@@ -282,3 +282,9 @@ function attachEventListeners() {
     });
   });
 }
+function logout() {
+  sessionStorage.removeItem("isAdminLoggedIn");
+  window.location.href = "admin.html";
+}
+import emailjs from "emailjs-com";
+emailjs.init("eF9FrGNpCZrOXsvWm");
