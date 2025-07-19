@@ -1,7 +1,15 @@
+// vite.config.js
 import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
+  base: "/", // Keep '/' for Vercel root. Remove if you like (default is '/').
+  server: {
+    host: true, // same as 0.0.0.0 (LAN access)
+    port: 5173,
+  },
   build: {
+    outDir: "dist",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
@@ -13,12 +21,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    outDir: "dist",
-  },
-  server: {
-    host: "0.0.0.0", // ← Allow LAN access
-    port: 5173, // Optional: fixed port
-  },
-  base: "./",
 });
