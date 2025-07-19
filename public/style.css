@@ -92,7 +92,7 @@ main {
   width: 100%;
   height: 80dvh;
 
-  background-image: url("src/hero_img.png");
+  background-image: url("/hero_img.png");
   background-size: cover; /* Scales image to cover the area */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat;
