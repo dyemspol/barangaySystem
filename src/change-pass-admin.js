@@ -77,3 +77,7 @@ button.addEventListener("click", () => {
       Swal.fire("Error", "Something went wrong during update.", "error");
     });
 });
+function logout() {
+  sessionStorage.removeItem("isAdminLoggedIn");
+  window.location.href = "admin.html";
+}

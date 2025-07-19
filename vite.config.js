@@ -1,24 +1,26 @@
-// vite.config.js
 import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  base: "/", // Keep '/' for Vercel root. Remove if you like (default is '/').
-  server: {
-    host: true, // same as 0.0.0.0 (LAN access)
-    port: 5173,
-  },
   build: {
     outDir: "dist",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
-        admin: resolve(__dirname, "admin_page.html"),
-        req: resolve(__dirname, "req_page_admin.html"),
-        changePwd: resolve(__dirname, "change-pass-admin.html"),
-        track: resolve(__dirname, "track-status.html"),
-        find: resolve(__dirname, "find_ref.html"),
+        index: resolve(__dirname, "index.html"),
+        adminLogin: resolve(__dirname, "admin.html"),
+        adminPage: resolve(__dirname, "admin_page.html"),
+        adminSecret: resolve(__dirname, "admin-$ecretKkey.html"),
+        adminchangePass: resolve(__dirname, "change-pass-admin.html"),
+        findRef: resolve(__dirname, "find_ref.html"),
+        otp: resolve(__dirname, "OTP.html"),
+        reqPageAdmin: resolve(__dirname, "req_page_admin.html"),
+        trackStatus: resolve(__dirname, "track-status.html"),
       },
     },
   },
+  server: {
+    host: "0.0.0.0", // Allow LAN access
+    port: 5173, // Optional: fixed port
+  },
+  base: "./",
 });

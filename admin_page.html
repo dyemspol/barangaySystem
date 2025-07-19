@@ -276,7 +276,7 @@
   </head>
 
   <body>
-    <!-- <script type="module" src="/src/auth-guard.js"></script> -->
+    <script type="module" src="/src/auth-guard.js"></script>
     <!-- Sidebar -->
     <div class="sidebar">
       <img src="/baranggay-logo.png" alt="" />
@@ -403,5 +403,15 @@
 
     <script type="module" src="/src/admin-main-page.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function logout() {
+        sessionStorage.removeItem("isAdminLoggedIn");
+        window.location.href = "admin.html";
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("eF9FrGNpCZrOXsvWm"); // Replace with your public key
+    </script>
   </body>
 </html>

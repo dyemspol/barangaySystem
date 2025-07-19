@@ -5,13 +5,13 @@ import {
   update,
 } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js";
 
-const findButton = document.querySelector("button[type='submit']");
+const form = document.getElementById("findRefForm");
 const emailInput = document.getElementById("findref");
 const docTypeSelect = document.getElementById("documentType");
 const messageBox = document.querySelector(".message");
 const loader = document.getElementById("loaderModal");
 
-findButton.addEventListener("click", async (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email = emailInput.value.trim().toLowerCase();

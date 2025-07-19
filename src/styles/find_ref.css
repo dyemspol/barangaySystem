@@ -88,7 +88,10 @@ nav .menulinks {
     font-size: clamp(0.5em, 5vw, 1.5em);
   }
 }
-
+#findRefForm {
+  display: flex;
+  flex-direction: column;
+}
 input,
 button,
 #documentType {
