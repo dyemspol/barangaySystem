@@ -92,10 +92,17 @@ nav .menulinks {
   display: flex;
   flex-direction: column;
 }
+
+#bttrack {
+  max-width: 100%;
+  width: 100%;
+}
 input,
 button,
 #documentType {
+  max-width: 100%;
   width: 20em;
+
   padding: 0.7em 1em;
   font-size: 1rem;
   border-radius: 0.5em;
